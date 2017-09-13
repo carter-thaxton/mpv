@@ -408,7 +408,8 @@ static int lavf_check_file(demuxer_t *demuxer, enum demux_check check)
 
     AVProbeData avpd = {
         // Disable file-extension matching with normal checks
-        .filename = check <= DEMUX_CHECK_REQUEST ? priv->filename : "",
+//        .filename = check <= DEMUX_CHECK_REQUEST ? priv->filename : "",
+        .filename = priv->filename,  // CJT FIX:  always use file extension if we can.  otherwise many CDG files are broken.
         .buf_size = 0,
         .buf = av_mallocz(PROBE_BUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE),
     };
