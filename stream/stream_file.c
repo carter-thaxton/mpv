@@ -116,6 +116,11 @@ static int control(stream_t *s, int cmd, void *arg)
         }
         break;
     }
+    case STREAM_CTRL_TV_LAST_CHAN: {
+        // HACK: allow using "tv-last-channel" command to prevent closing files
+        p->close = false;
+        break;
+    }
     }
     return STREAM_UNSUPPORTED;
 }
