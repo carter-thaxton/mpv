@@ -37,6 +37,7 @@
 #include "stream.h"
 #include "options/m_option.h"
 #include "options/path.h"
+#include "mpv/client.h"
 
 #if HAVE_BSD_FSTATFS
 #include <sys/param.h>
@@ -164,10 +165,15 @@ static int seek(stream_t *s, int64_t newpos)
     return lseek(p->fd, newpos, SEEK_SET) != (off_t)-1;
 }
 
+static bool HACK_prevent_close = false;
+void HACK_no_close_files() {
+    HACK_prevent_close = true;
+}
+
 static void s_close(stream_t *s)
 {
     struct priv *p = s->priv;
-    if (p->close)
+    if (p->close && !HACK_prevent_close)
         close(p->fd);
 }
 
@@ -281,6 +287,8 @@ static int open_f(stream_t *stream, const struct stream_open_args *args)
     };
     stream->priv = p;
     stream->is_local_fs = true;
+
+    HACK_prevent_close = false;
 
     bool strict_fs = args->flags & STREAM_LOCAL_FS_ONLY;
     bool write = stream->mode == STREAM_WRITE;
