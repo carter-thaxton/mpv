@@ -38,6 +38,7 @@
 #include "stream.h"
 #include "options/m_option.h"
 #include "options/path.h"
+#include "libmpv/client.h"
 
 #if HAVE_BSD_FSTATFS
 #include <sys/param.h>

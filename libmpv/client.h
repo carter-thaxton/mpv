@@ -1887,6 +1887,11 @@ MPV_EXPORT int mpv_hook_continue(mpv_handle *ctx, uint64_t id);
  */
 MPV_EXPORT int mpv_get_wakeup_pipe(mpv_handle *ctx);
 
+/**
+ * CJT HACK added to prevent closing of files when network is lost.
+ */
+MPV_EXPORT void HACK_no_close_files(void);
+
 #endif
 
 #ifdef __cplusplus
